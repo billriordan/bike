@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bike Test</title>
+    </head>
+    <body>
+    {% for bike in bikes %}
+        <h1 style="color: {{ bike.get_color() }}">{{ bike.get_color() }} bike</h1>
+        <p>travelled {{ bike.get_distance_travelled()|number_format(2, '.', ',') }} meters in {{ seconds }}s</p>
+    {% endfor %}
+    </body>
+</html>
