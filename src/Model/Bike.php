@@ -25,8 +25,11 @@ class Bike implements ShiftInterface, BikeInterface
     {
         $this->color = $color;
         $this->distance_travelled = $distance_travelled;
-        $this->wheel_radius = $wheel_radius;
-        $this->seat_height = $seat_height;
+        $this->set_wheel_radius($wheel_radius);
+        $this->set_seat_height($seat_height);
+        if ($current_gear < 1 || $curent_gear > $gears) {
+            throw new \Exception('current gear must be valid.');
+        }
         $this->current_gear = $current_gear;
         $this->gears = $gears;
     }
@@ -109,6 +112,13 @@ class Bike implements ShiftInterface, BikeInterface
      */
     public function pedal(float $delta, float $throttle): float
     {
+        if ($delta < 0) {
+            throw new \Exception('delta must be positive.');
+        }
+
+        if ($throttle < 0 || $throttle > 1.0) {
+            throw new \Exception('throttle must be between 0 and 1.');
+        }
         // how much percent power we are drawing in this timeframe.
         $pedal_power = $delta * $throttle;
 

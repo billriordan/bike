@@ -25,6 +25,10 @@ class ElectricBike extends Bike implements BatteryInterface
     {
         parent::__construct($color, $distance_travelled, $wheel_radius, $seat_height, $current_gear, $gears);
 
+        if ($battery_percent < 0 || $battery_percent > 100) {
+            throw new \Exception('battery must have a charge between 0 and 100');
+        }
+
         $this->battery_percent = $battery_percent;
     }
 
@@ -46,6 +50,14 @@ class ElectricBike extends Bike implements BatteryInterface
      */
     public function draw_power(float $delta, float $throttle): float
     {
+        if ($delta < 0) {
+            throw new \Exception('delta must be positive.');
+        }
+
+        if ($throttle < 0 || $throttle > 1.0) {
+            throw new \Exception('throttle must be between 0 and 1.');
+        }
+
         // how much percent power we are drawing in this timeframe.
         $draw = self::POWER_OUTPUT * $delta * $throttle;
 
